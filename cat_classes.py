@@ -3,8 +3,15 @@ import time
 import json
 import attr
 
+
+
+def chance(percent):
+    return random.random() < percent / 100
+
 class Cat:
-    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness = 0, fluffyness = 0):
+    IMPOTENT_CHANCE = 7
+
+    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness = 0, fluffyness = 0, gender, impotent = False):
         self.name = name
         self.fur_color = fur_color
         self.eye_color = eye_color
@@ -14,6 +21,8 @@ class Cat:
         self.breed = breed
         self.cuteness = cuteness
         self.fluffyness = fluffyness
+        self.gender = gender
+        self.impotent = impotent
 
     def __str__(self):
         return f"""
@@ -60,7 +69,61 @@ class Cat:
         breed = cls.get_attribute("breed")
         cuteness = random.randint(0, 100)
         fluffyness = random.randint(0, 100)
-        return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness)
+        gender = random.choice(["male", "female"])
+        impotent = chance(cls.IMPOTENT_CHANCE)
+        return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent)
+
+    @classmethod
+    def can_breed_check(cls, parent1, parent2):
+        if parent1.gender == parent2.gender:
+            return False
+        elif parent1.impotent or parent2.impotent:
+            return False
+        else:
+            return True 
+
+    @classmethod
+    def calc_kitten_cute(cls, parent1, parent2):
+        low = min(parent1.cuteness, parent2.cuteness) - 10
+        high = max(parent1.cuteness, parent2.cuteness) + 10
+        value = random.randint(low, high)
+        
+        if value > 100:
+            return 100
+        elif value < 0:
+            return 0
+        else:
+            return value
+    
+    @classmethod
+    def calc_kitten_fluffy(cls, parent1, parent2):
+        low = min(parent1.fluffyness, parent2.fluffyness) - 10
+        high = max(parent1.fluffyness, parent2.fluffyness) + 10
+        value = random.randint(low, high)
+        if value > 100:
+            return 100
+        elif value < 0:
+            return 0
+        else:
+            return value
+
+    @classmethod
+    def breed_cats(cls, parent1, parent2):
+        if not cls.can_breed_check(parent1, parent2):
+            raise ValueError("cant breed sorry bro")
+        else:
+            name = cls.get_catname()
+            fur_color = random.choice([parent1.fur_color, parent2.fur_color])
+            eye_color = random.choice([parent1.eye_color, parent2.eye_color])
+            pattern = random.choice([parent1.pattern, parent2.pattern])
+            size = random.choice([parent1.size, parent2.size])
+            mood = random.choice([parent1.mood, parent2.mood])
+            breed = random.choice([parent1.breed, parent2.breed])
+            cuteness = cls.calc_kitten_cute(parent1, parent2)
+            fluffyness = cls.calc_kitten_fluffy(parent1, parent2)
+            gender = random.choice(["male", "female"])
+            impotent = chance(cls.IMPOTENT_CHANCE)
+            return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent)
 
 
 
