@@ -1,7 +1,6 @@
 import random
 import time
 import json
-import attr
 
 
 
@@ -10,7 +9,32 @@ def chance(percent):
 
 class Cat:
     IMPOTENT_CHANCE = 7
-
+    RARITY_WEIGHTS = {
+    "common": 100,
+    "uncommon": 50,
+    "rare": 20,
+    "epic": 8,
+    "legendary": 3,
+    "mythic": 1
+}
+    RARITY_POINTS = {
+    "common": 1,
+    "uncommon": 3,
+    "rare": 10,
+    "epic": 30,
+    "legendary": 100,
+    "mythic": 500
+}
+    RARITY_THRESHOLDS = [
+    (0, "common"),
+    (15, "uncommon"),
+    (40, "rare"),
+    (100, "epic"),
+    (200, "legendary"),
+    (500, "mythic")
+]
+    FLUFF_CUTE_SELL_MULTIPLIER = 1.15
+    
     def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness = 0, fluffyness = 0, gender = "male", impotent = False):
         self.name = name
         self.fur_color = fur_color
@@ -23,21 +47,47 @@ class Cat:
         self.fluffyness = fluffyness
         self.gender = gender
         self.impotent = impotent
+        self.cat_rarity = self.calc_cat_rarity()
+        self.sell_price = self.calc_cat_sell_price()
+
+    def calc_cat_rarity(self):
+        with open("cat_attributes.json", "r") as file:
+            data = json.load(file)
+        
+        attributes_to_check = ["fur_color", "eye_color", "pattern", "size", "mood", "breed"]
+        
+        total_points = 0
+        for attr in attributes_to_check:
+            attr_value = getattr(self, attr)
+            rarity = data[attr][attr_value]["rarity"]
+            total_points += self.RARITY_POINTS[rarity]
+        
+        cat_rarity = "common"
+        for threshold, rarity_name in self.RARITY_THRESHOLDS:
+            if total_points >= threshold:
+                cat_rarity = rarity_name
+        
+        return cat_rarity
+        
+    
+    def calc_cat_sell_price(self):
+        cat_sell_price = self.RARITY_POINTS[self.cat_rarity] + (self.cuteness + self.fluffyness) * self.FLUFF_CUTE_SELL_MULTIPLIER 
+        return cat_sell_price
 
     def __str__(self):
         return f"""
-    🐱 {self.name} 🐱
-    ━━━━━━━━━━━━━━━━━━━━
-    🎨 Fur:      {self.fur_color}
-    👁️  Eyes:     {self.eye_color}
-    🔳 Pattern:  {self.pattern}
-    📏 Size:     {self.size}
-    😺 Mood:     {self.mood}
-    🏷️  Breed:    {self.breed}
-    💕 Cuteness: {self.cuteness}/100
-    ☁️  Fluffy:   {self.fluffyness}/100
-    ━━━━━━━━━━━━━━━━━━━━
-    """
+        🐱 {self.name} 🐱
+        ━━━━━━━━━━━━━━━━━━━━
+        🎨 Fur:      {self.fur_color}
+        👁️  Eyes:     {self.eye_color}
+        🔳 Pattern:  {self.pattern}
+        📏 Size:     {self.size}
+        😺 Mood:     {self.mood}
+        🏷️  Breed:    {self.breed}
+        💕 Cuteness: {self.cuteness}/100
+        ☁️  Fluffy:   {self.fluffyness}/100
+        ━━━━━━━━━━━━━━━━━━━━
+        """
         
     @classmethod   
     def get_catname(cls):
@@ -54,10 +104,20 @@ class Cat:
     def get_attribute(cls, attribute: str):
         with open("cat_attributes.json", "r") as file:
             data = json.load(file)
-            attribute_dict = data[attribute]
-            chosen_attribute = random.choice(list(attribute_dict.keys()))
-            return chosen_attribute
-   
+        
+        attribute_dict = data[attribute]
+        
+        items = []
+        weights = []
+        
+        for item_name, item_data in attribute_dict.items():
+            items.append(item_name)
+            weights.append(cls.RARITY_WEIGHTS[item_data["rarity"]])
+        
+        chosen = random.choices(items, weights=weights)[0]
+        return chosen
+
+
     @classmethod
     def unbox_cat(cls):
         name = cls.get_catname()
