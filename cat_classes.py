@@ -11,7 +11,7 @@ def chance(percent):
 class Cat:
     IMPOTENT_CHANCE = 7
 
-    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness = 0, fluffyness = 0, gender, impotent = False):
+    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness = 0, fluffyness = 0, gender = "male", impotent = False):
         self.name = name
         self.fur_color = fur_color
         self.eye_color = eye_color
@@ -76,11 +76,11 @@ class Cat:
     @classmethod
     def can_breed_check(cls, parent1, parent2):
         if parent1.gender == parent2.gender:
-            return False
+            return False, "Parents are same gender"
         elif parent1.impotent or parent2.impotent:
-            return False
+            return False, "One parent is impotent"
         else:
-            return True 
+            return True, "Can breed"  # Return tuple here too
 
     @classmethod
     def calc_kitten_cute(cls, parent1, parent2):
@@ -109,8 +109,9 @@ class Cat:
 
     @classmethod
     def breed_cats(cls, parent1, parent2):
-        if not cls.can_breed_check(parent1, parent2):
-            raise ValueError("cant breed sorry bro")
+        can_breed, reason = cls.can_breed_check(parent1, parent2)
+        if not can_breed:
+            raise ValueError(f"Can't breed: {reason}")
         else:
             name = cls.get_catname()
             fur_color = random.choice([parent1.fur_color, parent2.fur_color])
@@ -127,5 +128,7 @@ class Cat:
 
 
 
-my_cat = Cat.unbox_cat()
-print(my_cat)
+my_cat1 = Cat.unbox_cat()
+my_cat2 = Cat.unbox_cat()
+my_cat3 = Cat.breed_cats(my_cat1, my_cat2)
+print(my_cat1, my_cat2, my_cat3)

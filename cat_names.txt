@@ -602,7 +602,6 @@ Count Coralwhiskers
 Count Embermew
 Mr Wingface
 Thor II
-Karma II
 Happy Frostpaws
 Orange Lime
 Lady Harvey
@@ -892,7 +891,6 @@ Duke Chestnut
 Maroon Jet
 Aqua Sassy
 Ms Onyxpatch
-Clawswirl
 Baron Tomato
 Ironclaw
 Lakeens
@@ -1863,7 +1861,6 @@ Sleepy Magicpuff
 Fierce Duskers
 Thundermew
 Dark Houdini
-Magicdot
 Cricket
 Duke Snowface
 Bananapaws
@@ -2469,7 +2466,6 @@ Thin Ronin
 Mr Dagger
 Eveningmitt
 Mr Valentine
-Rootons
 Tempura Jr
 Hyper Snowface
 Phantomlight
@@ -4146,7 +4142,6 @@ Prince Sparkcoat
 Tan Clementine
 Steeltoes
 Pink Marble
-Lord Indigo
 Bolt
 Captain Sky
 Mr Rubytuft
@@ -5285,7 +5280,6 @@ Bright Royal
 Count Nosefuzz
 Lord Ghost
 Silver Garden
-Rainflame
 Coconutbelly
 Fuzzy Fangwhiskers
 Red Tokyo
@@ -6429,7 +6423,6 @@ Professor Harley
 Sammy the Brave
 Major Shadowface
 Major Fireball
-Ashonyx
 Professor Phantompuff
 General Snowtoes
 Lord Ozzy
@@ -6574,7 +6567,6 @@ Wingpatch
 Nova the Brave
 Twilightdark
 King Nala
-Salty Poe
 Pearlfeather
 Lady Sparktail
 Storm IV
@@ -7679,7 +7671,6 @@ Satinfire
 Princess Magicpatch
 Professor Snowwhiskers
 Darklightning
-Teal Lime
 Widget
 Poe the Magnificent
 Princess Pawpuff
@@ -7969,7 +7960,6 @@ Young Copperfuzz
 King Onyxface
 Cyan Forest
 Pink Juniper
-Nosemew
 Young Nemo
 Lightningnose
 Green Seed
@@ -8678,7 +8668,6 @@ Salty Juniper
 Lakebelly
 Mini Truffle
 Lady Woolpuff
-Dark Porsche
 Professor Rainfluff
 Coppervelvet
 Lightpaws
@@ -9876,7 +9865,6 @@ Salty Fireball
 Sour Java
 Spicy Finn
 Yellow Lemon
-Coconuttwist
 Seains
 Sushi the Magnificent
 Icebeans
@@ -9996,7 +9984,6 @@ Bold Bronzeswirl
 Eyecopper
 Bright Finn
 Sesame III
-
 Prince Echo
 Heartins
 Aqua Popcorn
