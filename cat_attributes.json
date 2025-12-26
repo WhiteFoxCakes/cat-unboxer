@@ -73,7 +73,8 @@
         "medium_large": {"rarity": "common"},
         "large": {"rarity": "uncommon"},
         "chonky": {"rarity": "rare"},
-        "absolute_unit": {"rarity": "legendary"}
+        "absolute_unit": {"rarity": "legendary"},
+        "gigabonker": {"rarity": "mythic"}
     },
     "mood": {
         "calm": {"rarity": "common"},

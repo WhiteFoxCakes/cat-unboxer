@@ -49,6 +49,7 @@ class Cat:
         self.impotent = impotent
         self.cat_rarity = self.calc_cat_rarity()
         self.sell_price = self.calc_cat_sell_price()
+        self.xp_value = self.calc_cat_xp()
 
     def calc_cat_rarity(self):
         with open("cat_attributes.json", "r") as file:
@@ -69,7 +70,12 @@ class Cat:
         
         return cat_rarity
         
-    
+    def calc_cat_xp(self):
+        base_xp = self.RARITY_POINTS[self.cat_rarity] * 10
+        bonus = (self.cuteness + self.fluffyness) * self.RARITY_POINTS[self.cat_rarity] // 100
+        return base_xp + bonus
+
+
     def calc_cat_sell_price(self):
         cat_sell_price = self.RARITY_POINTS[self.cat_rarity] + (self.cuteness + self.fluffyness) * self.FLUFF_CUTE_SELL_MULTIPLIER 
         return cat_sell_price
@@ -88,7 +94,40 @@ class Cat:
         ☁️  Fluffy:   {self.fluffyness}/100
         ━━━━━━━━━━━━━━━━━━━━
         """
-        
+    # Add these to your Cat class
+
+    def to_dict(self):
+        """Convert Cat to a dictionary for JSON saving."""
+        return {
+            "name": self.name,
+            "fur_color": self.fur_color,
+            "eye_color": self.eye_color,
+            "pattern": self.pattern,
+            "size": self.size,
+            "mood": self.mood,
+            "breed": self.breed,
+            "cuteness": self.cuteness,
+            "fluffyness": self.fluffyness,
+            "gender": self.gender,
+            "impotent": self.impotent
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        """Create a Cat from a dictionary (loaded from JSON)."""
+        return cls(
+            name=data["name"],
+            fur_color=data["fur_color"],
+            eye_color=data["eye_color"],
+            pattern=data["pattern"],
+            size=data["size"],
+            mood=data["mood"],
+            breed=data["breed"],
+            cuteness=data["cuteness"],
+            fluffyness=data["fluffyness"],
+            gender=data["gender"],
+            impotent=data["impotent"]
+        )
     @classmethod   
     def get_catname(cls):
         # Gets catname and removes from catnames.txt
@@ -186,7 +225,37 @@ class Cat:
             impotent = chance(cls.IMPOTENT_CHANCE)
             return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent)
 
+class Player:
+    """Formula: level^power * 100
 
+        Level    power=2    power=1.5    power=1.3
+        1          100         100         100
+        2          400         283         246
+        3          900         520         437
+        5        2,500       1,118         891
+        10       10,000       3,162       1,995
+        20       40,000       8,944       4,481
+        50      250,000      35,355      14,563"""
+    LEVEL_SCALE_POWER = 1.3
+
+    def __init__(self, name, xp = 0, cat_inventory=None, coins = 0):
+        self.name = name
+        self.xp = xp
+        self.level = self.calc_level()
+        self.cat_inventory = cat_inventory if cat_inventory else {}
+        self.coins = coins
+
+    def calc_level(self):
+        if self.xp < 100:
+            return 1
+        level = int((self.xp / 100) ** (1 / self.LEVEL_SCALE_POWER))
+        return max(level, 1)
+    
+    def add_cat(self, cat):
+
+
+
+    def remove_cat(self, cat):
 
 my_cat1 = Cat.unbox_cat()
 my_cat2 = Cat.unbox_cat()
