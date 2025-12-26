@@ -252,10 +252,24 @@ class Player:
         return max(level, 1)
     
     def add_cat(self, cat):
+        #  Add a cat to the player's inventory and award XP and calc level 
+        # Stores cat in dict by cats name example: inventory["Pearltuft"] is cat object
+        self.cat_inventory[cat.name] = cat
+        self.xp += cat.xp_value
+        self.level = self.calc_level()
 
-
-
-    def remove_cat(self, cat):
+    def remove_cat(self, cat_name):
+        # Remove a cat from the player's inventory by name. 
+        if cat_name in self.cat_inventory:
+            return self.cat_inventory.pop(cat_name)
+        return None
+    
+    def sell_cat(self, cat_name):
+        cat = self.remove_cat(cat_name)
+        if cat:
+            self.coins += cat.sell_price
+            return cat.sell_price
+        return None
 
 my_cat1 = Cat.unbox_cat()
 my_cat2 = Cat.unbox_cat()
