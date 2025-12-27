@@ -1,0 +1,33 @@
+{
+    "name": "TestPlayer",
+    "xp": 64,
+    "coins": 100,
+    "cat_inventory": {
+        "Eveningtuft": {
+            "name": "Eveningtuft",
+            "fur_color": "orange",
+            "eye_color": "amber",
+            "pattern": "tabby",
+            "size": "small",
+            "mood": "playful",
+            "breed": "scottish_fold",
+            "cuteness": 26,
+            "fluffyness": 40,
+            "gender": "female",
+            "impotent": false
+        },
+        "Tiny Nibbles": {
+            "name": "Tiny Nibbles",
+            "fur_color": "orange",
+            "eye_color": "sky_blue",
+            "pattern": "tortoiseshell",
+            "size": "tiny",
+            "mood": "grumpy",
+            "breed": "tabby",
+            "cuteness": 28,
+            "fluffyness": 100,
+            "gender": "male",
+            "impotent": false
+        }
+    }
+}

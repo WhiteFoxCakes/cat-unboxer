@@ -236,6 +236,7 @@ class Player:
         10       10,000       3,162       1,995
         20       40,000       8,944       4,481
         50      250,000      35,355      14,563"""
+    SAVE_PATH = "C:\VSCode Stuff\cat_unboxer\save_data.json"
     LEVEL_SCALE_POWER = 1.3
 
     def __init__(self, name, xp = 0, cat_inventory=None, coins = 0):
@@ -244,6 +245,24 @@ class Player:
         self.level = self.calc_level()
         self.cat_inventory = cat_inventory if cat_inventory else {}
         self.coins = coins
+
+    def __str__(self):
+        inventory_list = "\n".join([f"    - {cat.name} ({cat.cat_rarity})" for cat in self.cat_inventory.values()])
+        if not inventory_list:
+            inventory_list = "    (empty)"
+        
+        return f"""
+        👤 {self.name}
+        ━━━━━━━━━━━━━━━━━━━━
+        ⭐ Level:    {self.level}
+        ✨ XP:       {self.xp}
+        💰 Coins:    {self.coins}
+        🐱 Cats:     {len(self.cat_inventory)}
+        ━━━━━━━━━━━━━━━━━━━━
+        📦 Inventory:
+    {inventory_list}
+        ━━━━━━━━━━━━━━━━━━━━
+        """
 
     def calc_level(self):
         if self.xp < 100:
@@ -271,7 +290,37 @@ class Player:
             return cat.sell_price
         return None
 
-my_cat1 = Cat.unbox_cat()
-my_cat2 = Cat.unbox_cat()
-my_cat3 = Cat.breed_cats(my_cat1, my_cat2)
-print(my_cat1, my_cat2, my_cat3)
+    def save_game(self, filepath):
+        """Save player data to a JSON file."""
+        cats_as_dicts = {}
+        for name, cat in self.cat_inventory.items():
+            cats_as_dicts[name] = cat.to_dict()
+        
+        data = {
+            "name": self.name,
+            "xp": self.xp,
+            "coins": self.coins,
+            "cat_inventory": cats_as_dicts
+        }
+        
+        with open(self.SAVE_PATH, "w") as file:
+            json.dump(data, file, indent=4)
+
+    @classmethod
+    def load_game(cls, filepath):
+        """Load player data from a JSON file."""
+        with open(cls.SAVE_PATH, "r") as file:
+            data = json.load(file)
+        
+        # Rebuild cats from dicts
+        cat_inventory = {}
+        for name, cat_data in data["cat_inventory"].items():
+            cat_inventory[name] = Cat.from_dict(cat_data)
+        
+        return cls(
+            name=data["name"],
+            xp=data["xp"],
+            cat_inventory=cat_inventory,
+            coins=data["coins"]
+        )
+

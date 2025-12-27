@@ -2926,7 +2926,6 @@ Light Cottonons
 Sour Fern
 Old Midnightins
 Rocktwilight
-Tiny Nibbles
 Queen Yoshi
 Soulwhiskers
 Griffin
@@ -6332,7 +6331,6 @@ Jade III
 Venus the Brave
 Toothfur
 Lady Jet
-Eveningtuft
 Silverruby
 Floyd
 Clawlight
