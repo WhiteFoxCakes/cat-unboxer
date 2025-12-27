@@ -8,6 +8,8 @@ def chance(percent):
     return random.random() < percent / 100
 
 class Cat:
+    with open("cat_attributes.json", "r") as file:
+        ATTRIBUTES_DATA = json.load(file)
     IMPOTENT_CHANCE = 7
     RARITY_WEIGHTS = {
     "common": 100,
@@ -52,11 +54,8 @@ class Cat:
         self.xp_value = self.calc_cat_xp()
 
     def calc_cat_rarity(self):
-        with open("cat_attributes.json", "r") as file:
-            data = json.load(file)
-        
+        data =  self.ATTRIBUTES_DATA       
         attributes_to_check = ["fur_color", "eye_color", "pattern", "size", "mood", "breed"]
-        
         total_points = 0
         for attr in attributes_to_check:
             attr_value = getattr(self, attr)
@@ -141,9 +140,7 @@ class Cat:
     
     @classmethod
     def get_attribute(cls, attribute: str):
-        with open("cat_attributes.json", "r") as file:
-            data = json.load(file)
-        
+        data =  cls.ATTRIBUTES_DATA
         attribute_dict = data[attribute]
         
         items = []
