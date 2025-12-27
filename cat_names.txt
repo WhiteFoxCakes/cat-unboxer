@@ -1625,7 +1625,6 @@ Hyper Onyxpatch
 Ultra Ivan
 Captain Diamonders
 Toothstar
-Ghoststone
 Ms Elm
 Mr Sassy
 Black Storm
@@ -1756,7 +1755,6 @@ Mr Trapper
 Fluffy Pickle
 Zeke
 Gardenuns
-Riverdot
 Bronze Lucky
 Lady Lola
 Ironcrystal
@@ -2073,7 +2071,6 @@ Mini Lightfur
 Princess Moontail
 Princess Sesame
 Cyan Peach
-Rose Sunny
 Red Orange
 Swift Ashuns
 Prince Rubyins
@@ -5609,7 +5606,6 @@ Boots Jr
 Juniper
 Baron Otis
 Sunmorning
-Crystaluns
 Gemma the Terrible
 Thin Opalpuff
 Tiki the Magnificent
@@ -6128,7 +6124,6 @@ Queen Glittercoat
 Ultra Moose
 Yellow Lake
 Happy Cedar
-Golden Frankie
 Tall Cinder
 Ambercloud
 Electra
