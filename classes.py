@@ -121,8 +121,30 @@ class Box:
             print(f"  {data['description']}")
             print()
 
+class Shop:
+    @staticmethod
+    def buy_box(player, box_type):
+        box = Box.get_box(box_type)
+        if not box:
+            raise ValueError(f"Invalid box type: {box_type}")
+        box_cost = Box.BOXES[box_type]["price"]
+        if player.coins >= box_cost:
+            player.coins -= box_cost
+            for _ in range(box["cat_count"]):
+                player.add_cat(Cat.unbox_cat(box_type))
+            return
+        else:
+            raise ValueError(f"Not enough coins for {box_type} box.")
 
-
+    @staticmethod
+    def display_shop():
+        print("\n🏪 CAT BOX SHOP 🏪")
+        print("━" * 35)
+        for name, data in Box.BOXES.items():
+            cat_text = "cat" if data["cat_count"] == 1 else "cats"
+            print(f"  {name.upper()} - {data['price']} coins ({data['cat_count']} {cat_text})")
+            print(f"    {data['description']}")
+        print("━" * 35)
 
 class Cat:
     with open("cat_attributes.json", "r") as file:
@@ -440,19 +462,42 @@ class Player:
             coins=data["coins"]
         )
 
-# Test different boxes
-print("=== BASIC BOX ===")
-print(Cat.unbox_cat("basic"))
+# ===== SHOP TESTS =====
 
-print("=== PREMIUM BOX ===")
-print(Cat.unbox_cat("premium"))
+# Setup: Create player with coins
+player = Player("Tester", coins=1000)
 
-print("=== FLUFFY BOX ===")
-print(Cat.unbox_cat("fluffy"))
+print("=== DISPLAY SHOP ===")
+Shop.display_shop()
 
-print("=== LUCKY BOX ===")
-print(Cat.unbox_cat("lucky"))
+print("\n=== BUY BASIC BOX ===")
+print(f"Coins before: {player.coins}")
+Shop.buy_box(player, "basic")
+print(f"Coins after: {player.coins}")
+print(f"Cats owned: {len(player.cat_inventory)}")
 
-print("=== TRIPLE BOX ===")
-for i in range(3):
-    print(Cat.unbox_cat("triple"))
+print("\n=== BUY PREMIUM BOX ===")
+Shop.buy_box(player, "premium")
+print(f"Coins after: {player.coins}")
+print(f"Cats owned: {len(player.cat_inventory)}")
+
+print("\n=== BUY TRIPLE BOX ===")
+Shop.buy_box(player, "triple")
+print(f"Coins after: {player.coins}")
+print(f"Cats owned: {len(player.cat_inventory)}")
+
+print("\n=== PLAYER INVENTORY ===")
+print(player)
+
+print("\n=== TEST NOT ENOUGH COINS ===")
+poor_player = Player("Broke", coins=10)
+try:
+    Shop.buy_box(poor_player, "premium")
+except ValueError as e:
+    print(f"Error caught: {e}")
+
+print("\n=== TEST INVALID BOX TYPE ===")
+try:
+    Shop.buy_box(player, "fake_box")
+except ValueError as e:
+    print(f"Error caught: {e}")

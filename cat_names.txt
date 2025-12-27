@@ -132,7 +132,6 @@ Uno the Terrible
 Sneaky Hugo
 Hyper Bella
 Speedy Wonton
-Mangoswirl
 Baron Shineens
 Purple Peach
 Soft Darkcoat
@@ -789,7 +788,6 @@ Indigo Fern
 Golden Melon
 Tan Porsche
 Royal
-Speedy Nugget
 Violet Cherry
 Sour Fangpaws
 Gentle Gus
@@ -3088,7 +3086,6 @@ Pink Forest
 Dagger IV
 Count Tempura
 Berryface
-Baby Lightningcoat
 Yellow Simba
 Lakestripe
 Tan Coconut
@@ -3232,7 +3229,6 @@ Tempura the Terrible
 Ms Morningtail
 Brown Rebel
 Duke Rubynose
-Heavy Rover
 Ivy the Magnificent
 Quick Morningstripe
 Fangdiamond
@@ -5410,7 +5406,6 @@ Darksmoke
 Indigo Kiwi
 Mittshine
 Queen Tucker
-Baron Snowers
 Vegas the Terrible
 Toothtwist
 Sir Tailmew
@@ -6165,7 +6160,6 @@ Indigo Meadow
 Speedy Coralfuzz
 Twilightdiamond
 Eveningbeans
-Embercoat
 Ms Sassy
 Cyan Branch
 Light Zara
@@ -6282,7 +6276,6 @@ Grapetail
 Purple Banana
 Short Wizard
 Copper Rebel
-Stonesmoke
 Elm
 Quiet Pearlpaws
 Little Darktail
@@ -6292,7 +6285,6 @@ Rocket the Wise
 Velvetspot
 Lazy River
 Wizard the Brave
-Beammagic
 Wingsilver
 Yellow Mango
 Poe III
@@ -8077,7 +8069,6 @@ Crimson River
 Pebblewhiskers
 Pawrain
 Snowrock
-Lady Glowwave
 Scarlet Sawyer
 General Toffee
 Coralcopper
@@ -8705,7 +8696,6 @@ Crimson Slate
 Young Drake
 Queen Otto
 Duke Whiskpatch
-Orange Sebastian
 Princess Rockwave
 Baron Caramel
 Casper V
