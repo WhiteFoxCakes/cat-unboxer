@@ -210,7 +210,6 @@ Captain Everest
 Lord Twilightens
 Ultra Twilightmew
 Beamghost
-Merlin the Wise
 Tiny Zinc
 Old Stonepatch
 Midnightdot
@@ -246,7 +245,6 @@ Little Dustspike
 Dawnsnow
 Sleepy Firepatch
 Teal Link
-Puma the Great
 Thin Ghosters
 Bright Shadowens
 Count Rubytwist
@@ -1189,7 +1187,6 @@ Magenta Iggy
 Valleypuff
 Rootdot
 Short Edgar
-Lady Atlas
 Plumbelly
 Coral Onion
 Mangobeans
@@ -2658,7 +2655,6 @@ Spicy Noseens
 Lord Riley
 Skittles III
 Short Fangpatch
-Baron Snowball
 Golden Snickers
 Navy Odin
 Little Lily
@@ -4969,7 +4965,6 @@ Frostthunder
 Admiral Rufus
 Flicker the Brave
 Salty Karma
-Purple Thor
 Mr Sultan
 Dr Tesla
 Jadewhisk
@@ -5122,7 +5117,6 @@ Yellow Sesame
 Captain Diamondmew
 Wingspot
 Panther
-Shadowwave
 Captain Tootsie
 Bronzeonyx
 Round Sanddot
@@ -5835,7 +5829,6 @@ Professor Frankie
 Count Mars
 Admiral Fireface
 Truffle Jr
-Golddiamond
 Rose Rascal
 Zephyr the Great
 Prince Lightins

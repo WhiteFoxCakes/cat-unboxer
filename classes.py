@@ -6,10 +6,127 @@ import json
 def chance(percent: int):
     return random.random() < percent / 100
 
+class Box:
+    LUCKY_MULTIPLIERS = [0.5, 0.75, 1, 1.5, 2, 2.5, 3, 4]
+    BOXES = {
+        "basic": {
+            "price": 50,
+            "description": "A standard box with normal odds",
+            "cat_count": 1,
+            "weight_multipliers": {},
+            "min_fluffy": 0,
+            "max_fluffy": 100,
+            "min_cute": 0,
+            "max_cute": 100,
+            "guaranteed_rarity": None,
+            "is_lucky": False
+        },
+        "premium": {
+            "price": 200,
+            "description": "Better odds for rare cats",
+            "cat_count": 1,
+            "weight_multipliers": {
+                "fur_color": {"rare": 2, "epic": 2, "legendary": 2, "mythic": 2},
+                "eye_color": {"rare": 2, "epic": 2, "legendary": 2, "mythic": 2},
+                "pattern": {"rare": 2, "epic": 2, "legendary": 2, "mythic": 2},
+                "size": {"rare": 2, "epic": 2, "legendary": 2, "mythic": 2},
+                "mood": {"rare": 2, "epic": 2, "legendary": 2, "mythic": 2},
+                "breed": {"rare": 2, "epic": 2, "legendary": 2, "mythic": 2}
+            },
+            "min_fluffy": 0,
+            "max_fluffy": 100,
+            "min_cute": 0,
+            "max_cute": 100,
+            "guaranteed_rarity": None,
+            "is_lucky": False
+        },
+        "fluffy": {
+            "price": 150,
+            "description": "Guaranteed fluffy and cute cats",
+            "cat_count": 1,
+            "weight_multipliers": {},
+            "min_fluffy": 70,
+            "max_fluffy": 100,
+            "min_cute": 50,
+            "max_cute": 100,
+            "guaranteed_rarity": None,
+            "is_lucky": False
+        },
+        "lucky": {
+            "price": 300,
+            "description": "Random odds - could be amazing or terrible",
+            "cat_count": 1,
+            "weight_multipliers": {},  # Generated randomly at unbox time
+            "min_fluffy": 0,
+            "max_fluffy": 100,
+            "min_cute": 0,
+            "max_cute": 100,
+            "guaranteed_rarity": None,
+            "is_lucky": True
+        },
+        "triple": {
+            "price": 400,
+            "description": "Three cats with lower stats",
+            "cat_count": 3,
+            "weight_multipliers": {
+                "fur_color": {"rare": 0.5, "epic": 0.5, "legendary": 0.5, "mythic": 0.5},
+                "eye_color": {"rare": 0.5, "epic": 0.5, "legendary": 0.5, "mythic": 0.5},
+                "pattern": {"rare": 0.5, "epic": 0.5, "legendary": 0.5, "mythic": 0.5},
+                "size": {"rare": 0.5, "epic": 0.5, "legendary": 0.5, "mythic": 0.5},
+                "mood": {"rare": 0.5, "epic": 0.5, "legendary": 0.5, "mythic": 0.5},
+                "breed": {"rare": 0.5, "epic": 0.5, "legendary": 0.5, "mythic": 0.5}
+            },
+            "min_fluffy": 0,
+            "max_fluffy": 50,
+            "min_cute": 0,
+            "max_cute": 50,
+            "guaranteed_rarity": None,
+            "is_lucky": False
+        }
+    }
+    @classmethod
+    def get_box(cls, box_type):
+        return cls.BOXES.get(box_type)
+    
+    @classmethod
+    def get_price(cls, box_type):
+        """Returns box price."""
+        box = cls.get_box(box_type)
+        return box["price"] if box else None
+    
+    @classmethod
+    def get_weights(cls, box_type, attribute):
+        
+        box = cls.get_box(box_type)
+        weights = Cat.RARITY_WEIGHTS.copy()
+        
+        if box["is_lucky"]:
+            multiplier = random.choice(cls.LUCKY_MULTIPLIERS)
+            for rarity in ["rare", "epic", "legendary", "mythic"]:
+                weights[rarity] = int(weights[rarity] * multiplier)
+        else:
+            # Apply box multipliers
+            if attribute in box["weight_multipliers"]:
+                for rarity, mult in box["weight_multipliers"][attribute].items():
+                    weights[rarity] = int(weights[rarity] * mult)
+        
+        return weights
+
+    @classmethod
+    def list_boxes(cls):
+        print("\n📦 AVAILABLE BOXES 📦")
+        print("━" * 30)
+        for name, data in cls.BOXES.items():
+            print(f"{name.upper()}: {data['price']} coins")
+            print(f"  {data['description']}")
+            print()
+
+
+
+
 class Cat:
     with open("cat_attributes.json", "r") as file:
         ATTRIBUTES_DATA = json.load(file)
-    IMPOTENT_CHANCE = 7
     RARITY_WEIGHTS = {
     "common": 100,
     "uncommon": 50,
@@ -36,7 +153,7 @@ class Cat:
 ]
     FLUFF_CUTE_SELL_MULTIPLIER = 1.15
     
-    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent = False):
+    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender):
         self.name = name
         self.fur_color = fur_color
         self.eye_color = eye_color
@@ -47,7 +164,6 @@ class Cat:
         self.cuteness = cuteness
         self.fluffyness = fluffyness
         self.gender = gender
-        self.impotent = impotent
         self.cat_rarity = self.calc_cat_rarity()
         self.sell_price = self.calc_cat_sell_price()
         self.xp_value = self.calc_cat_xp()
@@ -91,7 +207,6 @@ class Cat:
         💕 Cuteness: {self.cuteness}/100
         ☁️  Fluffy:   {self.fluffyness}/100
         ⚧️  Gender:   {self.gender}
-        🚫 Impotent: {self.impotent}
         ⭐ Rarity:   {self.cat_rarity}
         💰 Sell:     {self.sell_price}
         ✨ XP:       {self.xp_value}
@@ -111,7 +226,6 @@ class Cat:
             "cuteness": self.cuteness,
             "fluffyness": self.fluffyness,
             "gender": self.gender,
-            "impotent": self.impotent
         }
 
     @classmethod
@@ -128,7 +242,6 @@ class Cat:
             cuteness=data["cuteness"],
             fluffyness=data["fluffyness"],
             gender=data["gender"],
-            impotent=data["impotent"]
         )
     @classmethod   
     def get_catname(cls):
@@ -140,44 +253,48 @@ class Cat:
         with open("cat_names.txt", "w") as file:
             file.write("\n".join(names))
         return name
-    
+        
     @classmethod
-    def get_attribute(cls, attribute: str):
-        data =  cls.ATTRIBUTES_DATA
+    def get_attribute(cls, attribute: str, box_type: str = "basic"):
+        data = cls.ATTRIBUTES_DATA
         attribute_dict = data[attribute]
         
+        weights = Box.get_weights(box_type, attribute)
+        
         items = []
-        weights = []
+        item_weights = []
         
         for item_name, item_data in attribute_dict.items():
             items.append(item_name)
-            weights.append(cls.RARITY_WEIGHTS[item_data["rarity"]])
+            item_weights.append(weights[item_data["rarity"]])
         
-        chosen = random.choices(items, weights=weights)[0]
+        chosen = random.choices(items, weights=item_weights)[0]
         return chosen
 
 
     @classmethod
-    def unbox_cat(cls):
+    def unbox_cat(cls, box_type="basic"):
+        box = Box.get_box(box_type)
+        if not box:
+            raise ValueError(f"Unknown box type: {box_type}")
+        
         name = cls.get_catname()
-        fur_color = cls.get_attribute("fur_color")
-        eye_color = cls.get_attribute("eye_color")
-        pattern = cls.get_attribute("pattern")
-        size = cls.get_attribute("size")
-        mood = cls.get_attribute("mood")
-        breed = cls.get_attribute("breed")
-        cuteness = random.randint(0, 100)
-        fluffyness = random.randint(0, 100)
+        fur_color = cls.get_attribute("fur_color", box_type)
+        eye_color = cls.get_attribute("eye_color", box_type)
+        pattern = cls.get_attribute("pattern", box_type)
+        size = cls.get_attribute("size", box_type)
+        mood = cls.get_attribute("mood", box_type)
+        breed = cls.get_attribute("breed", box_type)
+        cuteness = random.randint(box["min_cute"], box["max_cute"])
+        fluffyness = random.randint(box["min_fluffy"], box["max_fluffy"])
         gender = random.choice(["male", "female"])
-        impotent = chance(cls.IMPOTENT_CHANCE)
-        return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent)
+        
+        return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender)
 
     @classmethod
     def can_breed_check(cls, parent1, parent2):
         if parent1.gender == parent2.gender:
             return False, "Parents are same gender"
-        elif parent1.impotent or parent2.impotent:
-            return False, "One parent is impotent"
         else:
             return True, "Can breed"  # Return tuple here too
 
@@ -222,8 +339,7 @@ class Cat:
             cuteness = cls.calc_kitten_cute(parent1, parent2)
             fluffyness = cls.calc_kitten_fluffy(parent1, parent2)
             gender = random.choice(["male", "female"])
-            impotent = chance(cls.IMPOTENT_CHANCE)
-            return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent)
+            return cls(name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender)
 
 class Player:
     """Formula: level^power * 100
@@ -236,7 +352,7 @@ class Player:
         10       10,000       3,162       1,995
         20       40,000       8,944       4,481
         50      250,000      35,355      14,563"""
-    SAVE_PATH = "C:\VSCode Stuff\cat_unboxer\save_data.json"
+    SAVE_PATH = "save_data.json"
     LEVEL_SCALE_POWER = 1.3
 
     def __init__(self, name, xp = 0, cat_inventory=None, coins = 0):
@@ -290,7 +406,7 @@ class Player:
             return cat.sell_price
         return None
 
-    def save_game(self, filepath):
+    def save_game(self):
         """Save player data to a JSON file."""
         cats_as_dicts = {}
         for name, cat in self.cat_inventory.items():
@@ -324,3 +440,19 @@ class Player:
             coins=data["coins"]
         )
 
+# Test different boxes
+print("=== BASIC BOX ===")
+print(Cat.unbox_cat("basic"))
+
+print("=== PREMIUM BOX ===")
+print(Cat.unbox_cat("premium"))
+
+print("=== FLUFFY BOX ===")
+print(Cat.unbox_cat("fluffy"))
+
+print("=== LUCKY BOX ===")
+print(Cat.unbox_cat("lucky"))
+
+print("=== TRIPLE BOX ===")
+for i in range(3):
+    print(Cat.unbox_cat("triple"))
