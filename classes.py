@@ -1,10 +1,9 @@
 import random
-import time
 import json
 
 
 
-def chance(percent):
+def chance(percent: int):
     return random.random() < percent / 100
 
 class Cat:
@@ -37,7 +36,7 @@ class Cat:
 ]
     FLUFF_CUTE_SELL_MULTIPLIER = 1.15
     
-    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness = 0, fluffyness = 0, gender = "male", impotent = False):
+    def __init__(self, name, fur_color, eye_color, pattern, size, mood, breed, cuteness, fluffyness, gender, impotent = False):
         self.name = name
         self.fur_color = fur_color
         self.eye_color = eye_color
@@ -72,12 +71,12 @@ class Cat:
     def calc_cat_xp(self):
         base_xp = self.RARITY_POINTS[self.cat_rarity] * 10
         bonus = (self.cuteness + self.fluffyness) * self.RARITY_POINTS[self.cat_rarity] // 100
-        return base_xp + bonus
+        return int(round((base_xp + bonus), 0))
 
 
     def calc_cat_sell_price(self):
         cat_sell_price = self.RARITY_POINTS[self.cat_rarity] + (self.cuteness + self.fluffyness) * self.FLUFF_CUTE_SELL_MULTIPLIER 
-        return cat_sell_price
+        return int(round(cat_sell_price, 0))
 
     def __str__(self):
         return f"""
@@ -91,9 +90,13 @@ class Cat:
         🏷️  Breed:    {self.breed}
         💕 Cuteness: {self.cuteness}/100
         ☁️  Fluffy:   {self.fluffyness}/100
+        ⚧️  Gender:   {self.gender}
+        🚫 Impotent: {self.impotent}
+        ⭐ Rarity:   {self.cat_rarity}
+        💰 Sell:     {self.sell_price}
+        ✨ XP:       {self.xp_value}
         ━━━━━━━━━━━━━━━━━━━━
         """
-    # Add these to your Cat class
 
     def to_dict(self):
         """Convert Cat to a dictionary for JSON saving."""

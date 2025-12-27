@@ -984,7 +984,6 @@ General Ghostswirl
 Taz V
 Speedy Clawfluff
 Athena III
-Ancient Rocket
 Jadecrystal
 Vader II
 General Fluffpuff
@@ -1147,7 +1146,6 @@ Bananatwist
 Speedy Fangwhiskers
 Sir Comet
 Long Rayface
-Starspark
 Navy Emerald
 Pawiron
 Harley III
@@ -1517,7 +1515,6 @@ Paprika IV
 Silver Coco
 Rover Jr
 Glitterday
-Coralwhisk
 Forestuns
 Chubby Otis
 Aqua Toast
@@ -2604,7 +2601,6 @@ Lady Ironpatch
 Spicy Tempura
 Flamenose
 Silver Lucky
-Onyxray
 Gandalf the Magnificent
 Blue Jelly
 Midnightsatin
@@ -4330,7 +4326,6 @@ Peachtail
 Ms Socks
 Athena
 Cosmic Opalfluff
-Purple Iggy
 Sparkpatch
 Tall Tootsie
 Long Radar
@@ -5079,7 +5074,6 @@ Mittsilver
 Pink Lime
 Orange Ripley
 Sour Oak
-Ultra Hearttail
 Sawyer
 Duke Trapper
 Prince Scarlett
