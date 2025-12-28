@@ -1811,7 +1811,6 @@ Silly Chamomile
 Yellow Drake
 Copper Queen
 Starstar
-Old Goldbelly
 Cream Emerald
 Baron Amberbeans
 Sweet Toothwhiskers
@@ -6267,7 +6266,6 @@ Crazy Satinspike
 Captain Whiskcurl
 Ghosttwist
 Sour Paprika
-Teal Berry
 Captain Magicspot
 Opalbeans
 Sir Ironwhiskers
@@ -8848,7 +8846,6 @@ Frodo
 Admiral Cookie
 Baron Sprout
 Opalshine
-Crimson Seed
 Sweet Tempura
 Shimmershimmer
 Brown Valley
@@ -9088,7 +9085,6 @@ Swift Dayspike
 Sour Featherfur
 Mr Splash
 Silverwing
-Silly Jade
 Cosmic Jagger
 Tall Dawnbelly
 Captain Ginger

@@ -98,6 +98,8 @@ class Box:
     def get_weights(cls, box_type, attribute):
         
         box = cls.get_box(box_type)
+        if not box:
+            raise ValueError("Invalid box type")
         weights = Cat.RARITY_WEIGHTS.copy()
         
         if box["is_lucky"]:
@@ -122,17 +124,21 @@ class Box:
             print()
 
 class Shop:
+# In Shop class
     @staticmethod
     def buy_box(player, box_type):
         box = Box.get_box(box_type)
         if not box:
             raise ValueError(f"Invalid box type: {box_type}")
-        box_cost = Box.BOXES[box_type]["price"]
+        box_cost = box["price"]
         if player.coins >= box_cost:
             player.coins -= box_cost
+            cats = []
             for _ in range(box["cat_count"]):
-                player.add_cat(Cat.unbox_cat(box_type))
-            return
+                cat = Cat.unbox_cat(box_type)
+                player.add_cat(cat)
+                cats.append(cat)
+            return cats
         else:
             raise ValueError(f"Not enough coins for {box_type} box.")
 
@@ -462,42 +468,4 @@ class Player:
             coins=data["coins"]
         )
 
-# ===== SHOP TESTS =====
 
-# Setup: Create player with coins
-player = Player("Tester", coins=1000)
-
-print("=== DISPLAY SHOP ===")
-Shop.display_shop()
-
-print("\n=== BUY BASIC BOX ===")
-print(f"Coins before: {player.coins}")
-Shop.buy_box(player, "basic")
-print(f"Coins after: {player.coins}")
-print(f"Cats owned: {len(player.cat_inventory)}")
-
-print("\n=== BUY PREMIUM BOX ===")
-Shop.buy_box(player, "premium")
-print(f"Coins after: {player.coins}")
-print(f"Cats owned: {len(player.cat_inventory)}")
-
-print("\n=== BUY TRIPLE BOX ===")
-Shop.buy_box(player, "triple")
-print(f"Coins after: {player.coins}")
-print(f"Cats owned: {len(player.cat_inventory)}")
-
-print("\n=== PLAYER INVENTORY ===")
-print(player)
-
-print("\n=== TEST NOT ENOUGH COINS ===")
-poor_player = Player("Broke", coins=10)
-try:
-    Shop.buy_box(poor_player, "premium")
-except ValueError as e:
-    print(f"Error caught: {e}")
-
-print("\n=== TEST INVALID BOX TYPE ===")
-try:
-    Shop.buy_box(player, "fake_box")
-except ValueError as e:
-    print(f"Error caught: {e}")

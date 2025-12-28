@@ -1,33 +1,43 @@
 {
     "name": "TestPlayer",
-    "xp": 64,
-    "coins": 100,
+    "xp": 152,
+    "coins": 6,
     "cat_inventory": {
-        "Eveningtuft": {
-            "name": "Eveningtuft",
-            "fur_color": "orange",
+        "Old Goldbelly": {
+            "name": "Old Goldbelly",
+            "fur_color": "brown",
             "eye_color": "amber",
-            "pattern": "tabby",
+            "pattern": "mackerel",
+            "size": "small",
+            "mood": "sleepy",
+            "breed": "domestic_shorthair",
+            "cuteness": 78,
+            "fluffyness": 2,
+            "gender": "male"
+        },
+        "Crimson Seed": {
+            "name": "Crimson Seed",
+            "fur_color": "beige",
+            "eye_color": "hazel",
+            "pattern": "spotted",
             "size": "small",
             "mood": "playful",
-            "breed": "scottish_fold",
-            "cuteness": 26,
-            "fluffyness": 40,
-            "gender": "female",
-            "impotent": false
+            "breed": "domestic_longhair",
+            "cuteness": 96,
+            "fluffyness": 35,
+            "gender": "male"
         },
-        "Tiny Nibbles": {
-            "name": "Tiny Nibbles",
+        "Teal Berry": {
+            "name": "Teal Berry",
             "fur_color": "orange",
-            "eye_color": "sky_blue",
-            "pattern": "tortoiseshell",
-            "size": "tiny",
-            "mood": "grumpy",
-            "breed": "tabby",
-            "cuteness": 28,
-            "fluffyness": 100,
-            "gender": "male",
-            "impotent": false
+            "eye_color": "green",
+            "pattern": "mitted",
+            "size": "small",
+            "mood": "curious",
+            "breed": "persian",
+            "cuteness": 51,
+            "fluffyness": 88,
+            "gender": "male"
         }
     }
 }
