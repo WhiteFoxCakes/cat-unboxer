@@ -153,8 +153,16 @@ class Shop:
         print("━" * 35)
 
 class Cat:
-    with open("cat_attributes.json", "r") as file:
-        ATTRIBUTES_DATA = json.load(file)
+    # Load attributes data with proper error handling
+    try:
+        with open("cat_attributes.json", "r") as file:
+            ATTRIBUTES_DATA = json.load(file)
+    except FileNotFoundError:
+        raise FileNotFoundError("Critical error: cat_attributes.json not found. The game cannot start without this file.")
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Critical error: cat_attributes.json is corrupted or invalid JSON: {e}")
+    except Exception as e:
+        raise RuntimeError(f"Unexpected error loading cat_attributes.json: {e}")
     RARITY_WEIGHTS = {
     "common": 100,
     "uncommon": 50,
@@ -258,7 +266,23 @@ class Cat:
 
     @classmethod
     def from_dict(cls, data):
-        """Create a Cat from a dictionary (loaded from JSON)."""
+        """Create a Cat from a dictionary (loaded from JSON) with validation."""
+        # Validate required fields exist
+        required_fields = ["name", "fur_color", "eye_color", "pattern", "size", "mood", "breed", "cuteness", "fluffyness", "gender"]
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            raise ValueError(f"Cat data is missing required fields: {', '.join(missing_fields)}")
+
+        # Validate data types and ranges
+        if not isinstance(data["name"], str) or not data["name"]:
+            raise ValueError("Cat name must be a non-empty string")
+        if not isinstance(data["cuteness"], (int, float)) or not (0 <= data["cuteness"] <= 100):
+            raise ValueError("Cuteness must be between 0 and 100")
+        if not isinstance(data["fluffyness"], (int, float)) or not (0 <= data["fluffyness"] <= 100):
+            raise ValueError("Fluffyness must be between 0 and 100")
+        if data["gender"] not in ["male", "female"]:
+            raise ValueError("Gender must be 'male' or 'female'")
+
         return cls(
             name=data["name"],
             fur_color=data["fur_color"],
@@ -452,20 +476,47 @@ class Player:
 
     @classmethod
     def load_game(cls, filepath):
-        """Load player data from a JSON file."""
-        with open(cls.SAVE_PATH, "r") as file:
-            data = json.load(file)
-        
-        # Rebuild cats from dicts
+        """Load player data from a JSON file with validation."""
+        try:
+            with open(cls.SAVE_PATH, "r") as file:
+                data = json.load(file)
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Save file not found at {cls.SAVE_PATH}")
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Save file is corrupted or invalid JSON: {e}")
+        except Exception as e:
+            raise RuntimeError(f"Unexpected error loading save file: {e}")
+
+        # Validate required fields exist
+        required_fields = ["name", "xp", "coins", "cat_inventory"]
+        missing_fields = [field for field in required_fields if field not in data]
+        if missing_fields:
+            raise ValueError(f"Save file is missing required fields: {', '.join(missing_fields)}")
+
+        # Validate data types
+        if not isinstance(data["name"], str):
+            raise ValueError("Player name must be a string")
+        if not isinstance(data["xp"], (int, float)) or data["xp"] < 0:
+            raise ValueError("XP must be a non-negative number")
+        if not isinstance(data["coins"], (int, float)) or data["coins"] < 0:
+            raise ValueError("Coins must be a non-negative number")
+        if not isinstance(data["cat_inventory"], dict):
+            raise ValueError("Cat inventory must be a dictionary")
+
+        # Rebuild cats from dicts with error handling
         cat_inventory = {}
         for name, cat_data in data["cat_inventory"].items():
-            cat_inventory[name] = Cat.from_dict(cat_data)
-        
+            try:
+                cat_inventory[name] = Cat.from_dict(cat_data)
+            except Exception as e:
+                print(f"Warning: Failed to load cat '{name}': {e}. Skipping...")
+                continue
+
         return cls(
             name=data["name"],
-            xp=data["xp"],
+            xp=int(data["xp"]),
             cat_inventory=cat_inventory,
-            coins=data["coins"]
+            coins=int(data["coins"])
         )
 
 
